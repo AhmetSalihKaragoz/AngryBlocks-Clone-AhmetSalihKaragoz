@@ -1,25 +1,22 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
-using System.Collections;
 using Unity.Mathematics;
 
 public class DrawProjectilePath : MonoBehaviour
 {
     
     [SerializeField] private GameObject pointPrefab;
-    [SerializeField] private float _timeBetweenPoints;
 
-    private GameObject[] points;
+    private GameObject[] _points;
     private CannonShooter _cannonShooter;
 
+    private readonly float _timeBetweenPoints = 0.12f;
     private bool _hasSpawned = false;
-
     public bool hasSpawned
     {
         get => _hasSpawned;
         set => _hasSpawned = value;
     }
+    
     private void Start()
     {
         _cannonShooter = GetComponent<CannonShooter>();
@@ -33,10 +30,10 @@ public class DrawProjectilePath : MonoBehaviour
     public void SpawnPoints()
     {
         
-        points = new GameObject[_cannonShooter.ballCount];
+        _points = new GameObject[_cannonShooter.ballCount];
         for (int i = 0; i < _cannonShooter.ballCount; i++)
         {
-            points[i] = Instantiate(pointPrefab, _cannonShooter.firePoint.position, quaternion.identity);
+            _points[i] = Instantiate(pointPrefab, _cannonShooter.firePoint.position, quaternion.identity);
         }
         hasSpawned = true;
     }
@@ -45,7 +42,7 @@ public class DrawProjectilePath : MonoBehaviour
     {
         for (int i = 0; i < _cannonShooter.ballCount; i++)
         {
-            Destroy(points[i]);
+            Destroy(_points[i]);
         }
     }
 
@@ -55,9 +52,9 @@ public class DrawProjectilePath : MonoBehaviour
 
         if (hasSpawned)
         {
-            for (int i = 0; i<points.Length; i++)
+            for (int i = 0; i<_points.Length; i++)
             {
-                points[i].transform.position = PointPosition(i * _timeBetweenPoints);
+                _points[i].transform.position = PointPosition(i * _timeBetweenPoints);
             }
         }
     }

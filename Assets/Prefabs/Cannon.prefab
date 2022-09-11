@@ -40,6 +40,7 @@ GameObject:
   m_Component:
   - component: {fileID: 540581506945377702}
   - component: {fileID: 540581506945377703}
+  - component: {fileID: 7569251347560743471}
   m_Layer: 0
   m_Name: Cannon
   m_TagString: Untagged
@@ -77,7 +78,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootingPower: 5
   firePoint: {fileID: 540581506199172760}
-  cannonBall: {fileID: 7875316063558507630, guid: 6b8046042331f93488dca49389228c16, type: 3}
+  readyToShot: 1
+  direction: {x: 0, y: 0}
+  cannonBallPrefab: {fileID: 0}
+  ballCount: 6
+--- !u!114 &7569251347560743471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 540581506945377700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b710ab5eee150dc4cbcce83fcea052e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointPrefab: {fileID: 1581629568243563014, guid: 7a1ae939a156bef48a37160227f74cd3, type: 3}
 --- !u!1 &540581507839650310
 GameObject:
   m_ObjectHideFlags: 0

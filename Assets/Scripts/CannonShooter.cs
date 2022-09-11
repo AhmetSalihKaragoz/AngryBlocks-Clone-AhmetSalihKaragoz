@@ -1,25 +1,22 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.VFX;
 
 public class CannonShooter : MonoBehaviour
 {
     public float shootingPower;
     public Transform firePoint;
+    public bool readyToShot = true;
+    [HideInInspector] public Vector2 direction;
+    
     
     [SerializeField] private GameObject cannonBallPrefab;
 
-    public int ballCount = 8;
+    [HideInInspector] public int ballCount = 6;
+
     private List<GameObject> _cannonBallList = new List<GameObject>();
     private DrawProjectilePath _drawProjectilePath;
     
-
-    public bool readyToShot = true;
-    public Vector2 direction;
-
-
     private void Start()
     {
         _drawProjectilePath = GetComponent<DrawProjectilePath>();
@@ -30,8 +27,6 @@ public class CannonShooter : MonoBehaviour
         SpawnCannonBalls();
         StartCoroutine(Shoot());
     }
-    
-    
     private  IEnumerator Shoot()
     {
         WaitForSeconds wait = new WaitForSeconds(0.1f);
@@ -44,7 +39,7 @@ public class CannonShooter : MonoBehaviour
             for (int i = 0; i < _cannonBallList.Count; i++)
             {
                 _cannonBallList[i].GetComponent<Rigidbody2D>().velocity = cachedVelocity;
-                _cannonBallList[i].GetComponent<BallBounce>()._renderer.enabled = true;
+                _cannonBallList[i].GetComponent<BallController>()._renderer.enabled = true;
                 _drawProjectilePath.hasSpawned = false;
                 yield return wait;
             }
@@ -65,7 +60,7 @@ public class CannonShooter : MonoBehaviour
                     for (int i = 0; i < ballCount; i++)
                     {
                         var cannonBallInstance = Instantiate(cannonBallPrefab, firePoint.position, firePoint.rotation);
-                        cannonBallInstance.GetComponent<BallBounce>()._renderer.enabled = false;
+                        cannonBallInstance.GetComponent<BallController>()._renderer.enabled = false;
                         _cannonBallList.Add(cannonBallInstance);
                     }
                 }
@@ -88,5 +83,6 @@ public class CannonShooter : MonoBehaviour
         yield return new WaitForSeconds(5f);
         readyToShot = true;
     }
+    
     
 }

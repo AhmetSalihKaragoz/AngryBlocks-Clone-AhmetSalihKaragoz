@@ -1,7 +1,7 @@
-using System;
 using UnityEngine;
 
-public class BallBounce : MonoBehaviour
+
+public class BallController : MonoBehaviour
 {
     public SpriteRenderer _renderer;
     
@@ -15,7 +15,8 @@ public class BallBounce : MonoBehaviour
     
     void Update()
     {
-        lastVelocity = rb.velocity;
+        DestroyBall();
+        lastVelocity = (rb.velocity * 9) / 10;
     }
     private void OnCollisionEnter2D(Collision2D col)
     {
@@ -23,14 +24,23 @@ public class BallBounce : MonoBehaviour
         {
             var direction = Vector2.Reflect(lastVelocity, col.contacts[0].normal);
             rb.velocity = direction;
+            Debug.Log(rb.velocity.magnitude);
         }
         else if (col.gameObject.CompareTag("Block"))
         {
             var direction = Vector2.Reflect(lastVelocity, col.contacts[0].normal);
             rb.velocity = direction;
-            col.gameObject.GetComponent<Blocks>().UpdateBlockHealth();
+            col.gameObject.GetComponent<Block>().UpdateBlockHealth();
         }
-        
     }
+
+    void DestroyBall()
+    {
+        if (BlockSpawner.Instance.wholeSetDestroyed)
+        {
+            Destroy(gameObject);
+        }
+    }
+    
     
 }

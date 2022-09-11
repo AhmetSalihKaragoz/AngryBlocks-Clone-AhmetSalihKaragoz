@@ -1,18 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Blocks : MonoBehaviour
+public class Block : MonoBehaviour
 {
     [SerializeField] private Text lifetext;
     [SerializeField] private int _blockHealth;
     
-
-    public int blockHealth
-    { 
-        get => _blockHealth;
-        set => _blockHealth = value;
-    }
-
     void Start()
     {
         lifetext.text = _blockHealth.ToString();
@@ -22,7 +15,12 @@ public class Blocks : MonoBehaviour
     {
         _blockHealth--;
         lifetext.text = _blockHealth.ToString();
-        if(_blockHealth == 0) { Destroy(gameObject);}
+        if (_blockHealth <= 0)
+        {
+            Destroy(gameObject);
+            GameManager.Instance.DesroyedBlockCount++;
+            GameManager.Instance.UpdateFillAmount();
+        }
     }
     
 }
